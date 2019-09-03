@@ -23,6 +23,9 @@ Reference:
 
 以 UMD 构建的 `vue.js` 版本 [Code](/node_modules/vue/dist/vue.js)
 
-* `toRawType` : [Some Util Functions In Vue - `toRawType`](https://github.com/YangYmimi/read-vue/issues/1)
+* [Vue 中 toRawType 是用来做什么的?](https://github.com/YangYmimi/read-vue/issues/1)
 
+* [Vue 源码中提供的一些 Util 方法](https://github.com/YangYmimi/read-vue/issues/2)
+
+* [Vue 中纯函数缓存如何实现的?](https://github.com/YangYmimi/read-vue/issues/3)
 
