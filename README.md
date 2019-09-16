@@ -29,4 +29,5 @@ Reference:
 * [lodash 中对于 array-like 的定义](https://github.com/YangYmimi/read-vue/issues/4)
 * [Vue 中 bind 实现](https://github.com/YangYmimi/read-vue/issues/5)
 * [Vue 中 loose equal 实现](https://github.com/YangYmimi/read-vue/issues/6)
+* [Vue 中 UA 判断](https://github.com/YangYmimi/read-vue/issues/7)
 
