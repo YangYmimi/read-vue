@@ -31,3 +31,8 @@ Reference:
 * [Vue 中 loose equal 实现](https://github.com/YangYmimi/read-vue/issues/6)
 * [Vue 中 UA 判断](https://github.com/YangYmimi/read-vue/issues/7)
 
+### Reference
+
+* https://github.com/answershuto/learnVue
+
+* http://hcysun.me/vue-design/zh/
