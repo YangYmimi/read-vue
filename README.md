@@ -17,6 +17,8 @@
 > [Source Code](vuex/node_modules/vuex/dist/vuex.js)
 
 * [Vuex 中辅助函数 mapState 的实现解读](https://github.com/YangYmimi/read-vue/issues/8)
+* [Vuex 插件机制](https://github.com/YangYmimi/read-vue/issues/9)
+* [关于深拷贝?](https://github.com/YangYmimi/read-vue/issues/10)
 
 ### [Read Vue-Router](vue-router/README.md)
 
@@ -35,3 +37,11 @@
 * 部署，发布
 
 * 设计架构
+
+### References
+
+* https://github.com/answershuto/learnVue
+
+* http://hcysun.me/vue-design/zh/
+
+* https://ustbhuangyi.github.io/vue-analysis/
