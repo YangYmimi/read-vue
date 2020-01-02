@@ -14,7 +14,9 @@
 
 ### 文件结构
 
-#### dist
+* examples: 学习 Vue 过程中的 demo 文件夹。利用 Vue-Cli 快速生成。
+
+#### Vue 中 dist 文件夹结构
 
 | | UMD | CommonJS | ES Module |
 | --- | --- | --- | --- |
