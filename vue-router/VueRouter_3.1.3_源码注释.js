@@ -2881,6 +2881,7 @@
   VueRouter.install = install;
   VueRouter.version = '3.1.3';
 
+  // Vue Router 强依赖 Vue
   if (inBrowser && window.Vue) {
     window.Vue.use(VueRouter);
   }
