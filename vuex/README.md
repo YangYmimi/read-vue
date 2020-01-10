@@ -1,27 +1,29 @@
-# Read Vuex
+# Vuex [![Build Status](https://circleci.com/gh/vuejs/vuex/tree/dev.png?style=shield)](https://circleci.com/gh/vuejs/vuex)
 
-> Vuex Roadmap
+> Centralized State Management for Vue.js.
 
-* 数据流设计
+<p align="center">
+  <img width="700px" src="https://raw.githubusercontent.com/vuejs/vuex/dev/docs/.vuepress/public/vuex.png">
+</p>
 
-* 概念
+- [What is Vuex?](https://vuex.vuejs.org/)
+- [Full Documentation](http://vuex.vuejs.org/)
 
-  - state
+## Examples
 
-  - getter
+- [Counter](https://github.com/vuejs/vuex/tree/dev/examples/counter)
+- [Counter with Hot Reload](https://github.com/vuejs/vuex/tree/dev/examples/counter-hot)
+- [TodoMVC](https://github.com/vuejs/vuex/tree/dev/examples/todomvc)
+- [Flux Chat](https://github.com/vuejs/vuex/tree/dev/examples/chat)
+- [Shopping Cart](https://github.com/vuejs/vuex/tree/dev/examples/shopping-cart)
 
-  - mutation
+Running the examples:
 
-  - action
+``` bash
+$ npm install
+$ npm run dev # serve examples at localhost:8080
+```
 
-  - module
+## License
 
-* 数据持久化
-
-* Vuex 插件机制
-
-插件就是一个函数，接受 `store` 作为唯一参数. 可以参考 `devtool` 插件实现，查看 vuex 源码
-
-* 推荐结构 : https://vuex.vuejs.org/zh/guide/structure.html
-
-### Reference
+[MIT](http://opensource.org/licenses/MIT)
