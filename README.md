@@ -2,7 +2,19 @@
 
 ### Read Vue
 
-Vue 源码注解：vue/src
+#### 目录结构
+
+```
+src
+├── compiler        # 编译相关 
+├── core            # 核心代码 
+├── platforms       # 不同平台的支持
+├── server          # 服务端渲染
+├── sfc             # .vue 文件解析
+├── shared          # 共享代码
+```
+
+#### Vue相关文章整理
 
 * [Vue 中 toRawType 是用来做什么的?](https://github.com/YangYmimi/read-vue/issues/1)
 * [Vue 源码中提供的一些 Util 方法](https://github.com/YangYmimi/read-vue/issues/2)
@@ -11,6 +23,7 @@ Vue 源码注解：vue/src
 * [Vue 中 bind 实现](https://github.com/YangYmimi/read-vue/issues/5)
 * [Vue 中 loose equal 实现](https://github.com/YangYmimi/read-vue/issues/6)
 * [Vue 中 UA 判断](https://github.com/YangYmimi/read-vue/issues/7)
+* [Vue源码阅读 - 解析Vue.$mount()实现](https://github.com/YangYmimi/read-vue/issues/11)
 
 ### Read Vuex
 
@@ -39,7 +52,7 @@ get state () {
 }
 ```
 
-#### 相关文章整理
+#### Vuex相关文章整理
 
 * [Vuex 中辅助函数 mapState 的实现解读](https://github.com/YangYmimi/read-vue/issues/8)
 * [Vuex 插件机制](https://github.com/YangYmimi/read-vue/issues/9)

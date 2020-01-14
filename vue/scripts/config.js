@@ -120,6 +120,8 @@ const builds = {
     banner
   },
   // Runtime+compiler development build (Browser)
+  // 运行时和编译时 开发环境打包。用于浏览器引用。
+  // 文件路径：src/platforms/web/entry-runtime-with-compiler.js
   'web-full-dev': {
     entry: resolve('web/entry-runtime-with-compiler.js'),
     dest: resolve('dist/vue.js'),
@@ -129,6 +131,7 @@ const builds = {
     banner
   },
   // Runtime+compiler production build  (Browser)
+  // 运行时和编译时 开发环境打包
   'web-full-prod': {
     entry: resolve('web/entry-runtime-with-compiler.js'),
     dest: resolve('dist/vue.min.js'),

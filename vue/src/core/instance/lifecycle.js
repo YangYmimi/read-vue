@@ -143,8 +143,9 @@ export function mountComponent (
   el: ?Element,
   hydrating?: boolean
 ): Component {
-  vm.$el = el
+  vm.$el = el // 赋值给 $el
   if (!vm.$options.render) {
+    // 赋值 $options.render 配置, 虚拟 DOM 函数
     vm.$options.render = createEmptyVNode
     if (process.env.NODE_ENV !== 'production') {
       /* istanbul ignore if */
@@ -164,6 +165,7 @@ export function mountComponent (
       }
     }
   }
+  // 调用生命周期函数 `beforeMount()`
   callHook(vm, 'beforeMount')
 
   let updateComponent
@@ -185,6 +187,7 @@ export function mountComponent (
       mark(endTag)
       measure(`vue ${name} patch`, startTag, endTag)
     }
+  // 上面是调试代码，忽略了
   } else {
     updateComponent = () => {
       vm._update(vm._render(), hydrating)
@@ -194,6 +197,8 @@ export function mountComponent (
   // we set this to vm._watcher inside the watcher's constructor
   // since the watcher's initial patch may call $forceUpdate (e.g. inside child
   // component's mounted hook), which relies on vm._watcher being already defined
+  // 实例化 Watcher，回调函数中执行 updateComponent 方法
+  // _render() 这个方法会生成 VNode，并且还会使用 _update() 方法去更新 VNode
   new Watcher(vm, updateComponent, noop, {
     before () {
       if (vm._isMounted && !vm._isDestroyed) {
@@ -209,6 +214,7 @@ export function mountComponent (
     vm._isMounted = true
     callHook(vm, 'mounted')
   }
+  // 返回实例自身，所以可以链式调用其它实例方法
   return vm
 }
 

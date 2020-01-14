@@ -8,8 +8,10 @@ import {
 
 import { LIFECYCLE_HOOKS } from 'shared/constants'
 
+// Vue 全局配置
 export type Config = {
   // user
+  // 提供给用户的全局配置
   optionMergeStrategies: { [key: string]: Function };
   silent: boolean;
   productionTip: boolean;
@@ -21,6 +23,7 @@ export type Config = {
   keyCodes: { [key: string]: number | Array<number> };
 
   // platform
+  // 平台相关，和代码相关的配置
   isReservedTag: (x?: string) => boolean;
   isReservedAttr: (x?: string) => boolean;
   parsePlatformTagName: (x: string) => string;

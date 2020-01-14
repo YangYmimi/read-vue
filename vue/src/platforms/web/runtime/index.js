@@ -34,10 +34,13 @@ extend(Vue.options.components, platformComponents)
 Vue.prototype.__patch__ = inBrowser ? patch : noop
 
 // public mount method
+// 原型方法，本身支持传递 string 和 element
 Vue.prototype.$mount = function (
   el?: string | Element,
   hydrating?: boolean
 ): Component {
+  // query(el)：\src\platforms\web\util\index.js
+  // 其实就是为了获取到挂载的根节点
   el = el && inBrowser ? query(el) : undefined
   return mountComponent(this, el, hydrating)
 }
