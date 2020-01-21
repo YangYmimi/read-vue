@@ -5,13 +5,26 @@
 #### 目录结构
 
 ```
+带有 * 的是核心代码
+
 src
-├── compiler        # 编译相关 
-├── core            # 核心代码 
-├── platforms       # 不同平台的支持
-├── server          # 服务端渲染
-├── sfc             # .vue 文件解析
-├── shared          # 共享代码
+├── compiler          # 编译相关 
+├── core              # 核心代码
+  ├── global-api
+      ├── use.js      # 定义 Vue.use，Vue 插件机制
+  ├── instance
+    ├── index.js      # 定义 Vue 的构造函数
+    ├── *init.js      # 定义了 Vue 构造函数中使用的 _init() 方法
+  ├── oberver         # 数据响应式代码
+  ├── index.js        # 主要定义了 Vue 的全局 API
+├── platforms         # 不同平台的支持
+  ├── web
+    ├── runtime
+      ├── index.js                        # 定义 $mount
+    ├── entry-runtime-with-compiler.js    # Web平台入口文件，覆盖 $mount，执行模板解析和编译工作
+├── server            # 服务端渲染
+├── sfc               # .vue 文件解析
+├── shared            # 共享代码
 ```
 
 #### Vue相关文章整理
@@ -23,7 +36,10 @@ src
 * [Vue 中 bind 实现](https://github.com/YangYmimi/read-vue/issues/5)
 * [Vue 中 loose equal 实现](https://github.com/YangYmimi/read-vue/issues/6)
 * [Vue 中 UA 判断](https://github.com/YangYmimi/read-vue/issues/7)
+* [Vue 中 keep-alive 的理解](https://github.com/YangYmimi/read-vue/issues/13)
+* [Vue 中组件通信的方式](https://github.com/YangYmimi/read-vue/issues/12)
 * [Vue源码阅读 - 解析Vue.$mount()实现](https://github.com/YangYmimi/read-vue/issues/11)
+* [Vue源码阅读 - 生命周期](https://github.com/YangYmimi/read-vue/issues/14)
 
 ### Read Vuex
 

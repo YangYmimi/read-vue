@@ -43,9 +43,11 @@ export class Observer {
     this.value = value
     this.dep = new Dep()
     this.vmCount = 0
+    // 设置 __ob__ 引用当前 Observer 的实例
     def(value, '__ob__', this)
+    // 如果是数组的话，则需要做代理，将原生的数组原型替换，为了做数组的响应式
     if (Array.isArray(value)) {
-      if (hasProto) {
+      if (hasProto) { //
         protoAugment(value, arrayMethods)
       } else {
         copyAugment(value, arrayMethods, arrayKeys)
@@ -153,16 +155,23 @@ export function defineReactive (
     val = obj[key]
   }
 
+  // 响应式属性拦截
+  //
   let childOb = !shallow && observe(val)
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: function reactiveGetter () {
       const value = getter ? getter.call(obj) : val
+      // 如果存在依赖
       if (Dep.target) {
+        // 收集依赖
         dep.depend()
+        // 如果存在子依赖
         if (childOb) {
+          // 还得收集子依赖
           childOb.dep.depend()
+          // 如果是数组，也要收集数组的依赖
           if (Array.isArray(value)) {
             dependArray(value)
           }
@@ -187,7 +196,9 @@ export function defineReactive (
       } else {
         val = newVal
       }
+      // 如果新的值也是个对象，那么也要做一下依赖收集
       childOb = !shallow && observe(newVal)
+      // 最后通知更新
       dep.notify()
     }
   })
