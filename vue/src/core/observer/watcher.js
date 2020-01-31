@@ -161,13 +161,16 @@ export default class Watcher {
    * Subscriber interface.
    * Will be called when a dependency changes.
    */
+  // 当依赖变化时候进行更新
   update () {
     /* istanbul ignore else */
+    // lazy, sync 相关的配置选项
     if (this.lazy) {
       this.dirty = true
     } else if (this.sync) {
       this.run()
     } else {
+      // 通常走到入队操作这边
       queueWatcher(this)
     }
   }

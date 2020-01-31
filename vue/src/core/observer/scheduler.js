@@ -161,8 +161,10 @@ function callActivatedHooks (queue) {
  * Jobs with duplicate IDs will be skipped unless it's
  * pushed when the queue is being flushed.
  */
+// 将一个 watcher 丢到 watcher 队列
 export function queueWatcher (watcher: Watcher) {
   const id = watcher.id
+  // 去重，如果存在 watcher 的 id，则不再重新设置
   if (has[id] == null) {
     has[id] = true
     if (!flushing) {
@@ -184,6 +186,7 @@ export function queueWatcher (watcher: Watcher) {
         flushSchedulerQueue()
         return
       }
+      // 异步刷新队列，执行刷新回调
       nextTick(flushSchedulerQueue)
     }
   }

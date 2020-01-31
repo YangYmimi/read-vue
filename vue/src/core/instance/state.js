@@ -35,6 +35,7 @@ const sharedPropertyDefinition = {
   set: noop
 }
 
+// 属性代理
 export function proxy (target: Object, sourceKey: string, key: string) {
   sharedPropertyDefinition.get = function proxyGetter () {
     return this[sourceKey][key]
@@ -46,16 +47,22 @@ export function proxy (target: Object, sourceKey: string, key: string) {
 }
 
 export function initState (vm: Component) {
+  // 一个组件 (state) 实例一个 watcher
   vm._watchers = []
   const opts = vm.$options
+  // 如果定义了 props 则初始化 props
   if (opts.props) initProps(vm, opts.props)
+  // 如果定义了 methods 则初始化 methods
   if (opts.methods) initMethods(vm, opts.methods)
   if (opts.data) {
+    // 如果定义了 data 则初始化 data
     initData(vm)
   } else {
+    // 否则根组件响应式
     observe(vm._data = {}, true /* asRootData */)
   }
   if (opts.computed) initComputed(vm, opts.computed)
+  // firefox 浏览器有一个原生的 watch 方法在原型对象中
   if (opts.watch && opts.watch !== nativeWatch) {
     initWatch(vm, opts.watch)
   }
@@ -111,6 +118,7 @@ function initProps (vm: Component, propsOptions: Object) {
 
 function initData (vm: Component) {
   let data = vm.$options.data
+  // data 可以是 function (单个组件) 也可以是 object (根组件)
   data = vm._data = typeof data === 'function'
     ? getData(data, vm)
     : data || {}
@@ -130,6 +138,8 @@ function initData (vm: Component) {
   while (i--) {
     const key = keys[i]
     if (process.env.NODE_ENV !== 'production') {
+
+      // 判断methods内是否用重名的data定义
       if (methods && hasOwn(methods, key)) {
         warn(
           `Method "${key}" has already been defined as a data property.`,
@@ -137,6 +147,8 @@ function initData (vm: Component) {
         )
       }
     }
+
+    // 判断props内是否用重名的data定义
     if (props && hasOwn(props, key)) {
       process.env.NODE_ENV !== 'production' && warn(
         `The data property "${key}" is already declared as a prop. ` +
@@ -148,6 +160,7 @@ function initData (vm: Component) {
     }
   }
   // observe data
+  // 启动响应式
   observe(data, true /* asRootData */)
 }
 

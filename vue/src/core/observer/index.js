@@ -34,6 +34,7 @@ export function toggleObserving (value: boolean) {
  * object's property keys into getter/setters that
  * collect dependencies and dispatch updates.
  */
+// 每一个响应式对象都有一个 ob 
 export class Observer {
   value: any;
   dep: Dep;
@@ -41,19 +42,23 @@ export class Observer {
 
   constructor (value: any) {
     this.value = value
+    // dep 作为通知响应式变化。
+    // 那么以后如果 data 中数据存在了增减，就可以通过 ob 上的 dep 进行通知了
     this.dep = new Dep()
     this.vmCount = 0
     // 设置 __ob__ 引用当前 Observer 的实例
     def(value, '__ob__', this)
     // 如果是数组的话，则需要做代理，将原生的数组原型替换，为了做数组的响应式
     if (Array.isArray(value)) {
-      if (hasProto) { //
+      if (hasProto) { // 替换数组的方法，增加响应式处理，利用 __proto__
         protoAugment(value, arrayMethods)
       } else {
         copyAugment(value, arrayMethods, arrayKeys)
       }
+      // 递归执行
       this.observeArray(value)
     } else {
+      // 对象
       this.walk(value)
     }
   }
@@ -66,6 +71,7 @@ export class Observer {
   walk (obj: Object) {
     const keys = Object.keys(obj)
     for (let i = 0; i < keys.length; i++) {
+      // 对每一个对象的属性进行响应式设置
       defineReactive(obj, keys[i])
     }
   }
@@ -73,6 +79,7 @@ export class Observer {
   /**
    * Observe a list of Array items.
    */
+  // 如果数组内元素还是数组，则依然遍历执行响应式
   observeArray (items: Array<any>) {
     for (let i = 0, l = items.length; i < l; i++) {
       observe(items[i])
@@ -113,6 +120,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
   if (!isObject(value) || value instanceof VNode) {
     return
   }
+  // 观察者，已经存在了则直接返回，否则重新创建
   let ob: Observer | void
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
@@ -133,6 +141,7 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
 
 /**
  * Define a reactive property on an Object.
+ * 定义对象的响应式属性
  */
 export function defineReactive (
   obj: Object,
@@ -141,6 +150,8 @@ export function defineReactive (
   customSetter?: ?Function,
   shallow?: boolean
 ) {
+  // 与 key 一一对应. key 就是属性的 key
+  // 以后每次数据有变化，就可以通知到页面进行更新
   const dep = new Dep()
 
   const property = Object.getOwnPropertyDescriptor(obj, key)
@@ -156,12 +167,13 @@ export function defineReactive (
   }
 
   // 响应式属性拦截
-  //
+  // 每次执行 observe 都会返回一个和 val 相关的 ob
   let childOb = !shallow && observe(val)
   Object.defineProperty(obj, key, {
     enumerable: true,
     configurable: true,
     get: function reactiveGetter () {
+      // 获取值
       const value = getter ? getter.call(obj) : val
       // 如果存在依赖
       if (Dep.target) {
@@ -170,6 +182,7 @@ export function defineReactive (
         // 如果存在子依赖
         if (childOb) {
           // 还得收集子依赖
+          // 这边就利用到了 observe 构造函数中设置的 ob
           childOb.dep.depend()
           // 如果是数组，也要收集数组的依赖
           if (Array.isArray(value)) {
@@ -199,6 +212,7 @@ export function defineReactive (
       // 如果新的值也是个对象，那么也要做一下依赖收集
       childOb = !shallow && observe(newVal)
       // 最后通知更新
+      // 调用 watch 的 update 进行更新
       dep.notify()
     }
   })
@@ -276,6 +290,8 @@ export function del (target: Array<any> | Object, key: any) {
  * Collect dependencies on array elements when the array is touched, since
  * we cannot intercept array element access like property getters.
  */
+// 收集数组的依赖
+// 利用递归
 function dependArray (value: Array<any>) {
   for (let e, i = 0, l = value.length; i < l; i++) {
     e = value[i]

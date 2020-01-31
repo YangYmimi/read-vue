@@ -1,4 +1,4 @@
-### 解析Vue.$mount()实现
+### Vue源码阅读 - 解析Vue.$mount()实现
 
 [文档](https://cn.vuejs.org/v2/api/#vm-mount)
 

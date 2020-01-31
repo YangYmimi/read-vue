@@ -15,7 +15,9 @@ src
   ├── instance
     ├── index.js      # 定义 Vue 的构造函数
     ├── *init.js      # 定义了 Vue 构造函数中使用的 _init() 方法
+    ├── lifecycle.js  # 定义了 mountComponent 组件挂载函数
   ├── oberver         # 数据响应式代码
+    ├── array.js      # 覆盖数组原型方法，对数组操作进行响应式处理
   ├── index.js        # 主要定义了 Vue 的全局 API
 ├── platforms         # 不同平台的支持
   ├── web
@@ -40,6 +42,7 @@ src
 * [Vue 中组件通信的方式](https://github.com/YangYmimi/read-vue/issues/12)
 * [Vue源码阅读 - 解析Vue.$mount()实现](https://github.com/YangYmimi/read-vue/issues/11)
 * [Vue源码阅读 - 生命周期](https://github.com/YangYmimi/read-vue/issues/14)
+* [Vue源码阅读 - 数据响应式]()
 
 ### Read Vuex
 

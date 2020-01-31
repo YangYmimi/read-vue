@@ -1,5 +1,6 @@
 /* @flow */
 
+// remove 方法从一个数组中移除指定的元素
 import { isRegExp, remove } from 'shared/util'
 import { getFirstComponentChild } from 'core/vdom/helpers/index'
 
@@ -53,7 +54,7 @@ const patternTypes: Array<Function> = [String, RegExp, Array]
 export default {
   name: 'keep-alive',
   abstract: true,
-
+  // 组件缓存支持的属性
   props: {
     include: patternTypes,
     exclude: patternTypes,
@@ -81,6 +82,7 @@ export default {
   },
 
   render () {
+    // keep-alive 本身利用默认插槽，拿到内部渲染的 dom 结构
     const slot = this.$slots.default
     const vnode: VNode = getFirstComponentChild(slot)
     const componentOptions: ?VNodeComponentOptions = vnode && vnode.componentOptions

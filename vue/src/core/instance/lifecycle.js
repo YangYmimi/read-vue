@@ -197,6 +197,7 @@ export function mountComponent (
   // we set this to vm._watcher inside the watcher's constructor
   // since the watcher's initial patch may call $forceUpdate (e.g. inside child
   // component's mounted hook), which relies on vm._watcher being already defined
+
   // 实例化 Watcher，在初始化的时候执行回调函数 updateComponent 方法，并且当vm实例中检测的数据发生变化的时候执行此回调函数
   // _render() 这个方法会生成 VNode，并且还会使用 _update() 方法去更新 VNode
   new Watcher(vm, updateComponent, noop, {

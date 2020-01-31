@@ -36,7 +36,7 @@ export function initMixin (Vue: Class<Component>) {
       // internal component options needs special treatment.
       initInternalComponent(vm, options)
     } else {
-      // 合并 options
+      // 合并 options，将全局的组件 keep-alive, transition, transitionGroup 注入
       vm.$options = mergeOptions(
         resolveConstructorOptions(vm.constructor),
         options || {},
@@ -53,14 +53,14 @@ export function initMixin (Vue: Class<Component>) {
     // 用 _self 缓存 Vue 实例
     vm._self = vm
     // beforeCreate
-    initLifecycle(vm)
-    initEvents(vm)
-    initRender(vm)
+    initLifecycle(vm)  // 初始化生命周期相关的变量, $root, $parent, $refs, $children
+    initEvents(vm)     // 初始化事件监听，回调
+    initRender(vm)     // 声明 $slots, 初始化 render 函数 （ $createElement ）
     // callHook 调用生命周期
     callHook(vm, 'beforeCreate')
-    initInjections(vm) // resolve injections before data/props
+    initInjections(vm) // resolve injections before data/props. 注入数据
     initState(vm)
-    initProvide(vm) // resolve provide after data/props
+    initProvide(vm)    // resolve provide after data/props
     callHook(vm, 'created')
 
     /* istanbul ignore if */
@@ -70,6 +70,7 @@ export function initMixin (Vue: Class<Component>) {
       measure(`vue ${vm._name} init`, startTag, endTag)
     }
 
+    // 如果存在 el 则手动 mount
     if (vm.$options.el) {
       vm.$mount(vm.$options.el)
     }

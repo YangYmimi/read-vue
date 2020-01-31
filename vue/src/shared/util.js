@@ -46,7 +46,7 @@ export function isObject (obj: mixed): boolean %checks {
  * Get the raw type string of a value, e.g., [object Object].
  */
 const _toString = Object.prototype.toString
-
+// 数据类型判断: 利用 toString 方法截取字符串获得数据类型
 export function toRawType (value: any): string {
   return _toString.call(value).slice(8, -1)
 }
@@ -130,6 +130,7 @@ export const isReservedAttribute = makeMap('key,ref,slot,slot-scope,is')
 /**
  * Remove an item from an array.
  */
+// 从一个 arr 中移除某个元素
 export function remove (arr: Array<any>, item: any): Array<any> | void {
   if (arr.length) {
     const index = arr.indexOf(item)
