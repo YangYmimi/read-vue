@@ -277,4 +277,4 @@ export function mountComponent (
 
 ### 总结
 
-`$mount`：主要做了挂载的事情。对于挂载的元素定义的优先级，优先使用 `render`， 其次使用 `template`，`template` 支持 `html` 方式，或者 `#` 前缀方式（id选择器），最后使用 `el` 作为挂载元素。除了挂载之外，在方法定义中还做了
+`$mount`：主要做了挂载的事情。对于挂载的元素定义的优先级，优先使用 `render`， 其次使用 `template`，`template` 支持 `html` 方式，或者 `#` 前缀方式（id选择器），最后使用 `el` 作为挂载元素。

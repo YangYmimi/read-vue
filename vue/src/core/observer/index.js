@@ -125,12 +125,16 @@ export function observe (value: any, asRootData: ?boolean): Observer | void {
   if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
     ob = value.__ob__
   } else if (
+    // shouldObserve = true
     shouldObserve &&
+    // 非服务端渲染
     !isServerRendering() &&
+    // 是数组或者是对象，并且对象是可扩展的（即可以在对象中添加新的属性）
     (Array.isArray(value) || isPlainObject(value)) &&
     Object.isExtensible(value) &&
     !value._isVue
   ) {
+    // new 一个新的 ob
     ob = new Observer(value)
   }
   if (asRootData && ob) {

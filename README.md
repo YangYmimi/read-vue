@@ -5,19 +5,19 @@
 #### 目录结构
 
 ```
-带有 * 的是核心代码
-
 src
-├── compiler          # 编译相关 
+├── compiler          # 编译相关
 ├── core              # 核心代码
-  ├── global-api
+  ├── components      # 通用组件(所有平台通用的，包括 web 平台，weex 平台等) keep-alive
+  ├── global-api      # 全局 API
       ├── use.js      # 定义 Vue.use，Vue 插件机制
-  ├── instance
+  ├── instance        # 构造函数
     ├── index.js      # 定义 Vue 的构造函数
-    ├── *init.js      # 定义了 Vue 构造函数中使用的 _init() 方法
+    ├── init.js       # 定义了 Vue 构造函数中使用的 _init() 方法
     ├── lifecycle.js  # 定义了 mountComponent 组件挂载函数
   ├── oberver         # 数据响应式代码
     ├── array.js      # 覆盖数组原型方法，对数组操作进行响应式处理
+  ├── vdom            # 虚拟 dom 相关
   ├── index.js        # 主要定义了 Vue 的全局 API
 ├── platforms         # 不同平台的支持
   ├── web
@@ -42,7 +42,7 @@ src
 * [Vue 中组件通信的方式](https://github.com/YangYmimi/read-vue/issues/12)
 * [Vue源码阅读 - 解析Vue.$mount()实现](https://github.com/YangYmimi/read-vue/issues/11)
 * [Vue源码阅读 - 生命周期](https://github.com/YangYmimi/read-vue/issues/14)
-* [Vue源码阅读 - 数据响应式]()
+* [Vue源码阅读 - 异步更新队列](https://github.com/YangYmimi/read-vue/issues/15)
 
 ### Read Vuex
 

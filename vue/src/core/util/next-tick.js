@@ -15,7 +15,9 @@ function flushCallbacks () {
   pending = false
   const copies = callbacks.slice(0)
   callbacks.length = 0
+  // 循环
   for (let i = 0; i < copies.length; i++) {
+    // 执行回调函数
     copies[i]()
   }
 }
@@ -54,6 +56,7 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
     // "force" the microtask queue to be flushed by adding an empty timer.
     if (isIOS) setTimeout(noop)
   }
+  // promise.then() 是微任务
   isUsingMicroTask = true
 } else if (!isIE && typeof MutationObserver !== 'undefined' && (
   isNative(MutationObserver) ||
@@ -73,6 +76,7 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
     counter = (counter + 1) % 2
     textNode.data = String(counter)
   }
+  // MutationObserver 也当作微任务
   isUsingMicroTask = true
 } else if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
   // Fallback to setImmediate.
@@ -83,6 +87,7 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
   }
 } else {
   // Fallback to setTimeout.
+  // setTimeout 当作宏任务
   timerFunc = () => {
     setTimeout(flushCallbacks, 0)
   }
@@ -90,6 +95,7 @@ if (typeof Promise !== 'undefined' && isNative(Promise)) {
 
 export function nextTick (cb?: Function, ctx?: Object) {
   let _resolve
+  // push 回调
   callbacks.push(() => {
     if (cb) {
       try {
@@ -104,6 +110,7 @@ export function nextTick (cb?: Function, ctx?: Object) {
   if (!pending) {
     pending = true
     // 异步函数
+    // 会依据浏览器环境执行 微任务 或者 宏任务
     timerFunc()
   }
   // $flow-disable-line

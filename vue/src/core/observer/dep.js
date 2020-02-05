@@ -10,6 +10,7 @@ let uid = 0
  * A dep is an observable that can have multiple
  * directives subscribing to it.
  */
+// 收集依赖
 export default class Dep {
   static target: ?Watcher;
   id: number;
@@ -28,6 +29,7 @@ export default class Dep {
     remove(this.subs, sub)
   }
 
+  // 依赖收集
   depend () {
     if (Dep.target) {
       Dep.target.addDep(this)

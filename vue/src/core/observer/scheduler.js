@@ -76,7 +76,7 @@ function flushSchedulerQueue () {
   // Sort queue before flush.
   // This ensures that:
   // 1. Components are updated from parent to child. (because parent is always
-  //    created before the child)
+  //    created before the child) 组件的更新从父到子
   // 2. A component's user watchers are run before its render watcher (because
   //    user watchers are created before the render watcher)
   // 3. If a component is destroyed during a parent component's watcher run,
@@ -85,6 +85,7 @@ function flushSchedulerQueue () {
 
   // do not cache length because more watchers might be pushed
   // as we run existing watchers
+  // 不停的去执行 watcher 内的回调
   for (index = 0; index < queue.length; index++) {
     watcher = queue[index]
     if (watcher.before) {
@@ -92,6 +93,7 @@ function flushSchedulerQueue () {
     }
     id = watcher.id
     has[id] = null
+    // 执行 watcher
     watcher.run()
     // in dev build, check and stop circular updates.
     if (process.env.NODE_ENV !== 'production' && has[id] != null) {
@@ -114,10 +116,12 @@ function flushSchedulerQueue () {
   const activatedQueue = activatedChildren.slice()
   const updatedQueue = queue.slice()
 
+  // 重置 waiting = flushing = false, has = {}
   resetSchedulerState()
 
   // call component updated and activated hooks
   callActivatedHooks(activatedQueue)
+  // 执行 updated 钩子
   callUpdatedHooks(updatedQueue)
 
   // devtool hook
@@ -164,7 +168,7 @@ function callActivatedHooks (queue) {
 // 将一个 watcher 丢到 watcher 队列
 export function queueWatcher (watcher: Watcher) {
   const id = watcher.id
-  // 去重，如果存在 watcher 的 id，则不再重新设置
+  // 去重，如果存在 watcher 的 id，则不再入队
   if (has[id] == null) {
     has[id] = true
     if (!flushing) {
@@ -172,6 +176,7 @@ export function queueWatcher (watcher: Watcher) {
     } else {
       // if already flushing, splice the watcher based on its id
       // if already past its id, it will be run next immediately.
+      // 如果当前正在刷新队列（执行 flushSchedulerQueue 方法）则需要将 queue 中对应的 watcher 移出
       let i = queue.length - 1
       while (i > index && queue[i].id > watcher.id) {
         i--
