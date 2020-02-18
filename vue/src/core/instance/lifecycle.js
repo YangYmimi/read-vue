@@ -59,16 +59,20 @@ export function lifecycleMixin (Vue: Class<Component>) {
   Vue.prototype._update = function (vnode: VNode, hydrating?: boolean) {
     const vm: Component = this
     const prevEl = vm.$el
+    // 前一个 vDom
     const prevVnode = vm._vnode
     const restoreActiveInstance = setActiveInstance(vm)
+    // 将传入的 vDom 更新成 _vnode 以便之后做对比
     vm._vnode = vnode
     // Vue.prototype.__patch__ is injected in entry points
     // based on the rendering backend used.
+    // 如果没有前一个 vDom，那么属于首次初始化
     if (!prevVnode) {
       // initial render
       vm.$el = vm.__patch__(vm.$el, vnode, hydrating, false /* removeOnly */)
     } else {
       // updates
+      // 如果有，那么利用 __patch__ 函数进行对比
       vm.$el = vm.__patch__(prevVnode, vnode)
     }
     restoreActiveInstance()
@@ -87,8 +91,11 @@ export function lifecycleMixin (Vue: Class<Component>) {
     // updated in a parent's updated hook.
   }
 
+  // 强制更新组件
   Vue.prototype.$forceUpdate = function () {
     const vm: Component = this
+    // 如果当前组件有实例
+    // 执行 watcher
     if (vm._watcher) {
       vm._watcher.update()
     }
@@ -138,6 +145,7 @@ export function lifecycleMixin (Vue: Class<Component>) {
   }
 }
 
+// 挂载
 export function mountComponent (
   vm: Component,
   el: ?Element,
@@ -145,7 +153,7 @@ export function mountComponent (
 ): Component {
   vm.$el = el // 赋值给 $el
   if (!vm.$options.render) {
-    // 赋值 $options.render 配置, 虚拟 DOM 函数
+    // 设置 $options.render, 虚拟 DOM 函数
     vm.$options.render = createEmptyVNode
     if (process.env.NODE_ENV !== 'production') {
       /* istanbul ignore if */
@@ -189,6 +197,8 @@ export function mountComponent (
     }
   // 上面是调试代码，忽略了
   } else {
+    // 方法声明
+    // 用户 $mount() 时候会被定义
     updateComponent = () => {
       vm._update(vm._render(), hydrating)
     }
@@ -200,6 +210,7 @@ export function mountComponent (
 
   // 实例化 Watcher，在初始化的时候执行回调函数 updateComponent 方法，并且当vm实例中检测的数据发生变化的时候执行此回调函数
   // _render() 这个方法会生成 VNode，并且还会使用 _update() 方法去更新 VNode
+  // 一个组件一个 Watcher，这边只和 Vue 的根组件相关 
   new Watcher(vm, updateComponent, noop, {
     before () {
       if (vm._isMounted && !vm._isDestroyed) {

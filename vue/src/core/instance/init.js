@@ -36,7 +36,8 @@ export function initMixin (Vue: Class<Component>) {
       // internal component options needs special treatment.
       initInternalComponent(vm, options)
     } else {
-      // 合并 options，将全局的组件 keep-alive, transition, transitionGroup 注入
+      // 合并 options
+      // 如全局的组件 keep-alive, transition, transitionGroup
       vm.$options = mergeOptions(
         resolveConstructorOptions(vm.constructor),
         options || {},
@@ -59,7 +60,7 @@ export function initMixin (Vue: Class<Component>) {
     // callHook 调用生命周期
     callHook(vm, 'beforeCreate')
     initInjections(vm) // resolve injections before data/props. 注入数据
-    initState(vm)
+    initState(vm)      // 响应式数据初始化
     initProvide(vm)    // resolve provide after data/props
     callHook(vm, 'created')
 

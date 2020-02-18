@@ -49,6 +49,7 @@ export default class Watcher {
     options?: ?Object,
     isRenderWatcher?: boolean
   ) {
+    // expOrFn => updateComponent
     this.vm = vm
     if (isRenderWatcher) {
       vm._watcher = this
@@ -90,6 +91,7 @@ export default class Watcher {
         )
       }
     }
+    // this.lazy => false => 调用 get()
     this.value = this.lazy
       ? undefined
       : this.get()
@@ -97,6 +99,7 @@ export default class Watcher {
 
   /**
    * Evaluate the getter, and re-collect dependencies.
+   * 执行 getter，重新收集依赖
    */
   get () {
     pushTarget(this)

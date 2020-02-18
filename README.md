@@ -40,9 +40,13 @@ src
 * [Vue 中 UA 判断](https://github.com/YangYmimi/read-vue/issues/7)
 * [Vue 中 keep-alive 的理解](https://github.com/YangYmimi/read-vue/issues/13)
 * [Vue 中组件通信的方式](https://github.com/YangYmimi/read-vue/issues/12)
+* [Vue 中 v-if 和 v-for 优先级问题](https://github.com/YangYmimi/read-vue/issues/16)
+* [Vue 中组件 data 为什么需要是函数形式而根实例却没有限制](https://github.com/YangYmimi/read-vue/issues/17)
 * [Vue源码阅读 - 解析Vue.$mount()实现](https://github.com/YangYmimi/read-vue/issues/11)
 * [Vue源码阅读 - 生命周期](https://github.com/YangYmimi/read-vue/issues/14)
 * [Vue源码阅读 - 异步更新队列](https://github.com/YangYmimi/read-vue/issues/15)
+* [Vue源码阅读 - 虚拟Dom](https://github.com/YangYmimi/read-vue/issues/18)
+* [Vue源码阅读 - diff算法]()
 
 ### Read Vuex
 

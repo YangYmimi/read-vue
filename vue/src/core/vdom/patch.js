@@ -697,7 +697,9 @@ export function createPatchFunction (backend) {
     }
   }
 
+  // 一个类似树级别的Dom比较
   return function patch (oldVnode, vnode, hydrating, removeOnly) {
+    // 新 vDom 不存在，但是老 vDom 存在，则直接删除
     if (isUndef(vnode)) {
       if (isDef(oldVnode)) invokeDestroyHook(oldVnode)
       return
@@ -706,8 +708,11 @@ export function createPatchFunction (backend) {
     let isInitialPatch = false
     const insertedVnodeQueue = []
 
+    // 如果老 vDom 没有定义
     if (isUndef(oldVnode)) {
       // empty mount (likely as component), create new root element
+      // 创建一个新的根元素
+      // 初始化过程
       isInitialPatch = true
       createElm(vnode, insertedVnodeQueue)
     } else {

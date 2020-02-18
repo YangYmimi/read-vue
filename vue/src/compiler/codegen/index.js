@@ -61,7 +61,7 @@ export function genElement (el: ASTElement, state: CodegenState): string {
     return genStatic(el, state)
   } else if (el.once && !el.onceProcessed) {
     return genOnce(el, state)
-  } else if (el.for && !el.forProcessed) {
+  } else if (el.for && !el.forProcessed) { // v-for 优先于 v-if
     return genFor(el, state)
   } else if (el.if && !el.ifProcessed) {
     return genIf(el, state)

@@ -69,6 +69,8 @@ export function renderMixin (Vue: Class<Component>) {
 
   Vue.prototype._render = function (): VNode {
     const vm: Component = this
+    // vm.$options 中定义了 render 方法，该方法就是 `vdom/vnode` 中的 createEmptyVNode
+    // 这个在 `lifecycle.js` 中的 mountComponent 中有设置，也就是说在 mount() 环节设置了 render 函数
     const { render, _parentVnode } = vm.$options
 
     if (_parentVnode) {
@@ -125,6 +127,8 @@ export function renderMixin (Vue: Class<Component>) {
     }
     // set parent
     vnode.parent = _parentVnode
+
+    // 返回最新的 vDom
     return vnode
   }
 }

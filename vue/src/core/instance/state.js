@@ -168,6 +168,7 @@ export function getData (data: Function, vm: Component): any {
   // #7573 disable dep collection when invoking data getters
   pushTarget()
   try {
+    // 在当前 vm 上执行 data 函数，并把当前 vm 当作参数传递
     return data.call(vm, vm)
   } catch (e) {
     handleError(e, vm, `data()`)
