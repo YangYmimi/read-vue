@@ -74,7 +74,7 @@ export function lifecycleMixin (Vue: Class<Component>) {
       // updates
       // 如果有，那么利用 __patch__ 函数进行对比
       vm.$el = vm.__patch__(prevVnode, vnode)
-    }
+    } 
     restoreActiveInstance()
     // update __vue__ reference
     if (prevEl) {
