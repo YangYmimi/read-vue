@@ -18,6 +18,8 @@ src
   ├── oberver         # 数据响应式代码
     ├── array.js      # 覆盖数组原型方法，对数组操作进行响应式处理
   ├── vdom            # 虚拟 dom 相关
+    ├── patch.js      # diff 算法
+    ├── vnode.js      # 定义了虚拟Dom的结构
   ├── index.js        # 主要定义了 Vue 的全局 API
 ├── platforms         # 不同平台的支持
   ├── web
@@ -43,11 +45,12 @@ src
 * [Vue 中 v-if 和 v-for 优先级问题](https://github.com/YangYmimi/read-vue/issues/16)
 * [Vue 中组件 data 为什么需要是函数形式而根实例却没有限制](https://github.com/YangYmimi/read-vue/issues/17)
 * [Vue 中 key 的作用和原理](https://github.com/YangYmimi/read-vue/issues/19)
+* [Vue 中 Watcher、Observe、Dep 三者的关系]()
 * [Vue源码阅读 - 解析Vue.$mount()实现](https://github.com/YangYmimi/read-vue/issues/11)
 * [Vue源码阅读 - 生命周期](https://github.com/YangYmimi/read-vue/issues/14)
 * [Vue源码阅读 - 异步更新队列](https://github.com/YangYmimi/read-vue/issues/15)
 * [Vue源码阅读 - 虚拟Dom](https://github.com/YangYmimi/read-vue/issues/18)
-* [Vue源码阅读 - diff算法]()
+* [Vue源码阅读 - diff算法](https://github.com/YangYmimi/read-vue/issues/20)
 
 ### Read Vuex
 
