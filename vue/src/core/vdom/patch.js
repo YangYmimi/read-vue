@@ -72,13 +72,18 @@ function createKeyToOldIdx (children, beginIdx, endIdx) {
 export function createPatchFunction (backend) {
   let i, j
   const cbs = {}
-
+  // 这个在 `platform/web/runtime/modules/index` 中调用
   const { modules, nodeOps } = backend
 
+  // hooks => const hooks = ['create', 'activate', 'update', 'remove', 'destroy']
   for (i = 0; i < hooks.length; ++i) {
-    cbs[hooks[i]] = []
+    cbs[hooks[i]] = [] // cbs['create'] = []
     for (j = 0; j < modules.length; ++j) {
+      // 遍历 module 中定义的钩子函数，将有定义的钩子 push 到对应的钩子函数数组中，最后进行调用
+      // 这些 cbs 最终会在 patchVnode 方法中被调用
+      // 用来更新属性，class等操作
       if (isDef(modules[j][hooks[i]])) {
+        // cbs['create'] = [attrFn, classFn .....]
         cbs[hooks[i]].push(modules[j][hooks[i]])
       }
     }
@@ -426,6 +431,7 @@ export function createPatchFunction (backend) {
     }
 
     // 双节点循环
+    // 自顶向下逐层比较
     while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
       if (isUndef(oldStartVnode)) {
         oldStartVnode = oldCh[++oldStartIdx] // Vnode has been moved left
@@ -568,7 +574,8 @@ export function createPatchFunction (backend) {
     // 查找新旧节点是否有孩子
     const oldCh = oldVnode.children
     const ch = vnode.children
-    // 属性比较
+
+    // 属性等节点更新，这边将 createPatchFunction 方法中保存的 cbs 进行调用，用来更新属性，样式等
     if (isDef(data) && isPatchable(vnode)) {
       for (i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode)
       if (isDef(i = data.hook) && isDef(i = i.update)) i(oldVnode, vnode)

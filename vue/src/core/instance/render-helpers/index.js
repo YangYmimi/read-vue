@@ -12,6 +12,8 @@ import { bindObjectListeners } from './bind-object-listeners'
 import { resolveScopedSlots } from './resolve-scoped-slots'
 import { bindDynamicKeys, prependModifier } from './bind-dynamic-keys'
 
+// 渲染函数的别名
+// 编译器会将 vue 的模板编译成 render 函数
 export function installRenderHelpers (target: any) {
   target._o = markOnce
   target._n = toNumber

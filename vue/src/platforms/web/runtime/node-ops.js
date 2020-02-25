@@ -3,6 +3,7 @@
 import { namespaceMap } from 'web/util/index'
 
 export function createElement (tagName: string, vnode: VNode): Element {
+  // 普通的 dom 操作
   const elm = document.createElement(tagName)
   if (tagName !== 'select') {
     return elm

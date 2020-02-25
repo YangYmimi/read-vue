@@ -51,6 +51,8 @@ src
 * [Vue源码阅读 - 异步更新队列](https://github.com/YangYmimi/read-vue/issues/15)
 * [Vue源码阅读 - 虚拟Dom](https://github.com/YangYmimi/read-vue/issues/18)
 * [Vue源码阅读 - diff算法](https://github.com/YangYmimi/read-vue/issues/20)
+* [Vue源码阅读 - 模板编译](https://github.com/YangYmimi/read-vue/issues/21)
+* [Vue源码阅读 - 组件化实现]()
 
 ### Read Vuex
 

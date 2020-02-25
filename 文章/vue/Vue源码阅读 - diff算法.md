@@ -320,3 +320,5 @@ function updateChildren (parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly
   }
 }
 ```
+
+#### 总结

@@ -32,6 +32,8 @@ extend(Vue.options.components, platformComponents)
 
 // install platform patch function
 // __patch__ => 把传入的 vDom 转换成 Dom
+// export const inBrowser = typeof window !== 'undefined'
+// 非浏览器环境为空函数
 Vue.prototype.__patch__ = inBrowser ? patch : noop
 
 // public mount method
