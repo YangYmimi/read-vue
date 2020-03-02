@@ -219,6 +219,7 @@ export function createPatchFunction (backend) {
     let i = vnode.data
     if (isDef(i)) {
       const isReactivated = isDef(vnode.componentInstance) && i.keepAlive
+      // 创建组件的时候，如果组件有 init 钩子，则执行init方法创建组件实例并挂载
       if (isDef(i = i.hook) && isDef(i = i.init)) {
         i(vnode, false /* hydrating */)
       }
@@ -226,7 +227,9 @@ export function createPatchFunction (backend) {
       // it should've created a child instance and mounted it. the child
       // component also has set the placeholder vnode's elm.
       // in that case we can just return the element and be done.
+      // 如果组件实例存在了
       if (isDef(vnode.componentInstance)) {
+        // 初始化组件属性，事件，样式等
         initComponent(vnode, insertedVnodeQueue)
         insert(parentElm, vnode.elm, refElm)
         if (isTrue(isReactivated)) {

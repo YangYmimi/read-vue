@@ -33,6 +33,7 @@ import {
 } from 'weex/runtime/recycle-list/render-component-template'
 
 // inline hooks to be invoked on component VNodes during patch
+// 默认的组件管理钩子
 const componentVNodeHooks = {
   init (vnode: VNodeWithData, hydrating: boolean): ?boolean {
     if (
@@ -96,14 +97,16 @@ const componentVNodeHooks = {
   }
 }
 
+// init, prepatch, insert, destroy
 const hooksToMerge = Object.keys(componentVNodeHooks)
 
+// 创建自定义组件
 export function createComponent (
-  Ctor: Class<Component> | Function | Object | void,
+  Ctor: Class<Component> | Function | Object | void, // Ctor 为构造函数
   data: ?VNodeData,
   context: Component,
   children: ?Array<VNode>,
-  tag?: string
+  tag?: string // tag 就是组件的标签，如定义了一个组件叫 ElTable, 那这边就叫 el-table
 ): VNode | Array<VNode> | void {
   if (isUndef(Ctor)) {
     return
@@ -151,6 +154,7 @@ export function createComponent (
   resolveConstructorOptions(Ctor)
 
   // transform component v-model data into props & events
+  // 双向绑定处理
   if (isDef(data.model)) {
     transformModel(Ctor.options, data)
   }
@@ -183,6 +187,7 @@ export function createComponent (
   }
 
   // install component management hooks onto the placeholder node
+  // 安装自定义组件钩子
   installComponentHooks(data)
 
   // return a placeholder vnode
@@ -223,6 +228,7 @@ export function createComponentInstanceForVnode (
   return new vnode.componentOptions.Ctor(options)
 }
 
+// 安装组件钩子，用户传递的钩子会和默认的钩子进行merge操作
 function installComponentHooks (data: VNodeData) {
   const hooks = data.hook || (data.hook = {})
   for (let i = 0; i < hooksToMerge.length; i++) {

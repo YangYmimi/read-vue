@@ -322,3 +322,7 @@ function updateChildren (parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly
 ```
 
 #### 总结
+
+* Vue 2 为了降低 Watcher 粒度，一个组件对应一个 Watcher，这个从 $mount() 中可以发现，每次 $mount() 过程都会 new 一个 Watcher 实例
+
+* Vue 执行 diff 的时候是当组件实例执行其更新函数时，即上面的 `_update()`，他会对比 vDom 的前后结构

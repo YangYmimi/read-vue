@@ -4,7 +4,7 @@
 
 #### 整体流程
 
-* compileToFunctions
+##### compileToFunctions
 
 源码位置：`src\platforms\web\entry-runtime-with-compiler.js`
 
@@ -92,7 +92,7 @@ Vue.prototype.$mount = function (
 }
 ```
 
-* 编译过程
+##### 编译过程
 
 源码位置：`src\compiler\index.js`
 

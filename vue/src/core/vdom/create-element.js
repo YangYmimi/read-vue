@@ -44,8 +44,9 @@ export function createElement (
   return _createElement(context, tag, data, children, normalizationType)
 }
 
+// 
 export function _createElement (
-  context: Component,
+  context: Component, // context 为组件实例
   tag?: string | Class<Component> | Function | Object,
   data?: VNodeData,
   children?: any,
@@ -92,10 +93,13 @@ export function _createElement (
   } else if (normalizationType === SIMPLE_NORMALIZE) {
     children = simpleNormalizeChildren(children)
   }
+
+  // 根据标签名称 tag 来做相应的操作，生成 vDom
   let vnode, ns
   if (typeof tag === 'string') {
     let Ctor
     ns = (context.$vnode && context.$vnode.ns) || config.getTagNamespace(tag)
+    // 是不是保留标签
     if (config.isReservedTag(tag)) {
       // platform built-in elements
       if (process.env.NODE_ENV !== 'production' && isDef(data) && isDef(data.nativeOn)) {
@@ -110,6 +114,8 @@ export function _createElement (
       )
     } else if ((!data || !data.pre) && isDef(Ctor = resolveAsset(context.$options, 'components', tag))) {
       // component
+      // 自定义组件
+      // Ctor 为组件构造函数，context 为组件实例
       vnode = createComponent(Ctor, data, context, children, tag)
     } else {
       // unknown or unlisted namespaced elements
