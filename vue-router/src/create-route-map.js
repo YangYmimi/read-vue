@@ -4,15 +4,15 @@ import Regexp from 'path-to-regexp'
 import { cleanPath } from './util/path'
 import { assert, warn } from './util/warn'
 
-export function createRouteMap (
+export function createRouteMap(
   routes: Array<RouteConfig>,
   oldPathList?: Array<string>,
   oldPathMap?: Dictionary<RouteRecord>,
   oldNameMap?: Dictionary<RouteRecord>
 ): {
-  pathList: Array<string>,
-  pathMap: Dictionary<RouteRecord>,
-  nameMap: Dictionary<RouteRecord>
+  pathList: Array<string>, // 路径列表
+  pathMap: Dictionary<RouteRecord>, // 路由map
+  nameMap: Dictionary<RouteRecord> // 路由名称map
 } {
   // the path list is used to control path matching priority
   const pathList: Array<string> = oldPathList || []
@@ -37,12 +37,15 @@ export function createRouteMap (
   if (process.env.NODE_ENV === 'development') {
     // warn if routes do not include leading slashes
     const found = pathList
-    // check for missing leading slash
+      // check for missing leading slash
       .filter(path => path && path.charAt(0) !== '*' && path.charAt(0) !== '/')
 
     if (found.length > 0) {
       const pathNames = found.map(path => `- ${path}`).join('\n')
-      warn(false, `Non-nested routes must include a leading slash character. Fix the following routes: \n${pathNames}`)
+      warn(
+        false,
+        `Non-nested routes must include a leading slash character. Fix the following routes: \n${pathNames}`
+      )
     }
   }
 
@@ -53,7 +56,7 @@ export function createRouteMap (
   }
 }
 
-function addRouteRecord (
+function addRouteRecord(
   pathList: Array<string>,
   pathMap: Dictionary<RouteRecord>,
   nameMap: Dictionary<RouteRecord>,
@@ -95,10 +98,11 @@ function addRouteRecord (
       route.props == null
         ? {}
         : route.components
-          ? route.props
-          : { default: route.props }
+        ? route.props
+        : { default: route.props }
   }
 
+  // 收集子路由
   if (route.children) {
     // Warn if route is named, does not redirect and has a default child route.
     // If users navigate to this route by name, the default child will
@@ -112,9 +116,7 @@ function addRouteRecord (
         warn(
           false,
           `Named Route '${route.name}' has a default child route. ` +
-            `When navigating to this named route (:to="{name: '${
-              route.name
-            }'"), ` +
+            `When navigating to this named route (:to="{name: '${route.name}'"), ` +
             `the default child route will not be rendered. Remove the name from ` +
             `this route and use the name of the default child route for named ` +
             `links instead.`
@@ -175,7 +177,7 @@ function addRouteRecord (
   }
 }
 
-function compileRouteRegex (
+function compileRouteRegex(
   path: string,
   pathToRegexpOptions: PathToRegexpOptions
 ): RouteRegExp {
@@ -193,7 +195,7 @@ function compileRouteRegex (
   return regex
 }
 
-function normalizePath (
+function normalizePath(
   path: string,
   parent?: RouteRecord,
   strict?: boolean

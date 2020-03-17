@@ -5,9 +5,10 @@ import { saveScrollPosition } from './scroll'
 import { genStateKey, setStateKey, getStateKey } from './state-key'
 import { extend } from './misc'
 
+// 判断浏览器是否支持 history.pushState
 export const supportsPushState =
   inBrowser &&
-  (function () {
+  (function() {
     const ua = window.navigator.userAgent
 
     if (
@@ -22,7 +23,7 @@ export const supportsPushState =
     return window.history && 'pushState' in window.history
   })()
 
-export function pushState (url?: string, replace?: boolean) {
+export function pushState(url?: string, replace?: boolean) {
   saveScrollPosition()
   // try...catch the pushState call to get around Safari
   // DOM Exception 18 where it limits to 100 pushState calls
@@ -41,6 +42,6 @@ export function pushState (url?: string, replace?: boolean) {
   }
 }
 
-export function replaceState (url?: string) {
+export function replaceState(url?: string) {
   pushState(url, true)
 }

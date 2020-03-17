@@ -6,11 +6,13 @@ import { normalizeLocation } from '../util/location'
 import { warn } from '../util/warn'
 
 // work around weird flow bug
+// router-link 的 to props 支持传递 string 或者 object
 const toTypes: Array<Function> = [String, Object]
 const eventTypes: Array<Function> = [String, Array]
 
 const noop = () => {}
 
+// <router-link></router-link>
 export default {
   name: 'RouterLink',
   props: {
@@ -19,20 +21,24 @@ export default {
       required: true
     },
     tag: {
+      // router-link 会被编译成什么标签，默认为 a 标签
       type: String,
       default: 'a'
     },
+    // 精确匹配
     exact: Boolean,
     append: Boolean,
     replace: Boolean,
     activeClass: String,
+    // 配置当链接被精确匹配的时候应该激活的 class
     exactActiveClass: String,
     event: {
+      // 声明可以用来触发导航的事件。可以是一个字符串或是一个包含字符串的数组
       type: eventTypes,
       default: 'click'
     }
   },
-  render (h: Function) {
+  render(h: Function) {
     const router = this.$router
     const current = this.$route
     const { location, route, href } = router.resolve(
@@ -106,9 +112,7 @@ export default {
         if (process.env.NODE_ENV !== 'production') {
           warn(
             false,
-            `RouterLink with to="${
-              this.props.to
-            }" is trying to use a scoped slot but it didn't provide exactly one child.`
+            `RouterLink with to="${this.props.to}" is trying to use a scoped slot but it didn't provide exactly one child.`
           )
         }
         return scopedSlot.length === 0 ? h() : h('span', {}, scopedSlot)
@@ -155,7 +159,7 @@ export default {
   }
 }
 
-function guardEvent (e) {
+function guardEvent(e) {
   // don't redirect with control keys
   if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) return
   // don't redirect when preventDefault called
@@ -174,7 +178,7 @@ function guardEvent (e) {
   return true
 }
 
-function findAnchor (children) {
+function findAnchor(children) {
   if (children) {
     let child
     for (let i = 0; i < children.length; i++) {
