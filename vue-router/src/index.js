@@ -40,6 +40,7 @@ export default class VueRouter {
     this.beforeHooks = []
     this.resolveHooks = []
     this.afterHooks = []
+    //
     this.matcher = createMatcher(options.routes || [], this)
 
     // 默认 hash 方式
