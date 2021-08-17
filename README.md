@@ -1,8 +1,8 @@
 # Vue Bucket
 
-### Read Vue
+## Read Vue
 
-#### 目录结构
+### 目录结构
 
 ```
 src
@@ -31,7 +31,7 @@ src
 ├── shared            # 共享代码
 ```
 
-#### Vue 相关文章整理
+### Vue 相关文章整理
 
 - [Vue 中 toRawType 是用来做什么的?](https://github.com/YangYmimi/read-vue/issues/1)
 - [Vue 源码中提供的一些 Util 方法](https://github.com/YangYmimi/read-vue/issues/2)
@@ -54,11 +54,9 @@ src
 - [Vue 源码阅读 - 模板编译](https://github.com/YangYmimi/read-vue/issues/21)
 - [Vue 源码阅读 - 组件化实现]()
 
-### Read Vuex
+## Read Vuex
 
-Vuex 源码注解：vuex/src
-
-#### Vuex 的实现思路
+### Vuex 的实现思路
 
 - 实例初始化:
 
@@ -81,19 +79,15 @@ get state () {
 }
 ```
 
-#### Vuex 相关文章整理
+### Vuex 相关文章整理
 
 - [Vuex 中辅助函数 mapState 的实现解读](https://github.com/YangYmimi/read-vue/issues/8)
 - [Vuex 插件机制](https://github.com/YangYmimi/read-vue/issues/9)
 - [Vuex 中如何利用深拷贝比较 state 前后变化?](https://github.com/YangYmimi/read-vue/issues/10)
 
-### Read Vue-Router
+## Read Vue-Router
 
-Vue-Router 源码注解：vue-router/src
-
-#### Vue-Router 相关文章整理
-
-### References
+## References
 
 - https://github.com/answershuto/learnVue
 

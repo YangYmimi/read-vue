@@ -1,13 +1,23 @@
-import { isObject, toRawType, def } from "@vue/shared"
-import { mutableHandlers, readonlyHandlers, shallowReactiveHandlers, shallowReadonlyHandlers } from "./baseHandlers"
-import { mutableCollectionHandlers, readonlyCollectionHandlers, shallowCollectionHandlers } from "./collectionHandlers"
-import { UnwrapRef, Ref } from "./ref"
+import { isObject, toRawType, def } from '@vue/shared'
+import {
+  mutableHandlers,
+  readonlyHandlers,
+  shallowReactiveHandlers,
+  shallowReadonlyHandlers
+} from './baseHandlers'
+import {
+  mutableCollectionHandlers,
+  readonlyCollectionHandlers,
+  shallowCollectionHandlers,
+  shallowReadonlyCollectionHandlers
+} from './collectionHandlers'
+import { UnwrapRefSimple, Ref } from './ref'
 
 export const enum ReactiveFlags {
-  SKIP = "__v_skip",
-  IS_REACTIVE = "__v_isReactive",
-  IS_READONLY = "__v_isReadonly",
-  RAW = "__v_raw"
+  SKIP = '__v_skip',
+  IS_REACTIVE = '__v_isReactive',
+  IS_READONLY = '__v_isReadonly',
+  RAW = '__v_raw'
 }
 
 export interface Target {
@@ -18,7 +28,9 @@ export interface Target {
 }
 
 export const reactiveMap = new WeakMap<Target, any>()
+export const shallowReactiveMap = new WeakMap<Target, any>()
 export const readonlyMap = new WeakMap<Target, any>()
+export const shallowReadonlyMap = new WeakMap<Target, any>()
 
 const enum TargetType {
   INVALID = 0,
@@ -28,13 +40,13 @@ const enum TargetType {
 
 function targetTypeMap(rawType: string) {
   switch (rawType) {
-    case "Object":
-    case "Array":
+    case 'Object':
+    case 'Array':
       return TargetType.COMMON
-    case "Map":
-    case "Set":
-    case "WeakMap":
-    case "WeakSet":
+    case 'Map':
+    case 'Set':
+    case 'WeakMap':
+    case 'WeakSet':
       return TargetType.COLLECTION
     default:
       return TargetType.INVALID
@@ -42,11 +54,13 @@ function targetTypeMap(rawType: string) {
 }
 
 function getTargetType(value: Target) {
-  return value[ReactiveFlags.SKIP] || !Object.isExtensible(value) ? TargetType.INVALID : targetTypeMap(toRawType(value))
+  return value[ReactiveFlags.SKIP] || !Object.isExtensible(value)
+    ? TargetType.INVALID
+    : targetTypeMap(toRawType(value))
 }
 
 // only unwrap nested ref
-type UnwrapNestedRefs<T> = T extends Ref ? T : UnwrapRef<T>
+export type UnwrapNestedRefs<T> = T extends Ref ? T : UnwrapRefSimple<T>
 
 /**
  * Creates a reactive copy of the original object.
@@ -76,7 +90,13 @@ export function reactive(target: object) {
   if (target && (target as Target)[ReactiveFlags.IS_READONLY]) {
     return target
   }
-  return createReactiveObject(target, false, mutableHandlers, mutableCollectionHandlers)
+  return createReactiveObject(
+    target,
+    false,
+    mutableHandlers,
+    mutableCollectionHandlers,
+    reactiveMap
+  )
 }
 
 /**
@@ -85,7 +105,13 @@ export function reactive(target: object) {
  * root level).
  */
 export function shallowReactive<T extends object>(target: T): T {
-  return createReactiveObject(target, false, shallowReactiveHandlers, shallowCollectionHandlers)
+  return createReactiveObject(
+    target,
+    false,
+    shallowReactiveHandlers,
+    shallowCollectionHandlers,
+    shallowReactiveMap
+  )
 }
 
 type Primitive = string | number | boolean | bigint | symbol | undefined | null
@@ -114,8 +140,16 @@ export type DeepReadonly<T> = T extends Builtin
  * Creates a readonly copy of the original object. Note the returned copy is not
  * made reactive, but `readonly` can be called on an already reactive object.
  */
-export function readonly<T extends object>(target: T): DeepReadonly<UnwrapNestedRefs<T>> {
-  return createReactiveObject(target, true, readonlyHandlers, readonlyCollectionHandlers)
+export function readonly<T extends object>(
+  target: T
+): DeepReadonly<UnwrapNestedRefs<T>> {
+  return createReactiveObject(
+    target,
+    true,
+    readonlyHandlers,
+    readonlyCollectionHandlers,
+    readonlyMap
+  )
 }
 
 /**
@@ -124,15 +158,24 @@ export function readonly<T extends object>(target: T): DeepReadonly<UnwrapNested
  * returned properties.
  * This is used for creating the props proxy object for stateful components.
  */
-export function shallowReadonly<T extends object>(target: T): Readonly<{ [K in keyof T]: UnwrapNestedRefs<T[K]> }> {
-  return createReactiveObject(target, true, shallowReadonlyHandlers, readonlyCollectionHandlers)
+export function shallowReadonly<T extends object>(
+  target: T
+): Readonly<{ [K in keyof T]: UnwrapNestedRefs<T[K]> }> {
+  return createReactiveObject(
+    target,
+    true,
+    shallowReadonlyHandlers,
+    shallowReadonlyCollectionHandlers,
+    shallowReadonlyMap
+  )
 }
 
 function createReactiveObject(
   target: Target,
   isReadonly: boolean,
   baseHandlers: ProxyHandler<any>,
-  collectionHandlers: ProxyHandler<any>
+  collectionHandlers: ProxyHandler<any>,
+  proxyMap: WeakMap<Target, any>
 ) {
   if (!isObject(target)) {
     if (__DEV__) {
@@ -142,11 +185,13 @@ function createReactiveObject(
   }
   // target is already a Proxy, return it.
   // exception: calling readonly() on a reactive object
-  if (target[ReactiveFlags.RAW] && !(isReadonly && target[ReactiveFlags.IS_REACTIVE])) {
+  if (
+    target[ReactiveFlags.RAW] &&
+    !(isReadonly && target[ReactiveFlags.IS_REACTIVE])
+  ) {
     return target
   }
   // target already has corresponding Proxy
-  const proxyMap = isReadonly ? readonlyMap : reactiveMap
   const existingProxy = proxyMap.get(target)
   if (existingProxy) {
     return existingProxy
@@ -156,7 +201,10 @@ function createReactiveObject(
   if (targetType === TargetType.INVALID) {
     return target
   }
-  const proxy = new Proxy(target, targetType === TargetType.COLLECTION ? collectionHandlers : baseHandlers)
+  const proxy = new Proxy(
+    target,
+    targetType === TargetType.COLLECTION ? collectionHandlers : baseHandlers
+  )
   proxyMap.set(target, proxy)
   return proxy
 }
@@ -177,7 +225,8 @@ export function isProxy(value: unknown): boolean {
 }
 
 export function toRaw<T>(observed: T): T {
-  return (observed && toRaw((observed as Target)[ReactiveFlags.RAW])) || observed
+  const raw = observed && (observed as Target)[ReactiveFlags.RAW]
+  return raw ? toRaw(raw) : observed
 }
 
 export function markRaw<T extends object>(value: T): T {

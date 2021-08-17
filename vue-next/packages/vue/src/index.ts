@@ -7,7 +7,9 @@ import * as runtimeDom from '@vue/runtime-dom'
 import { isString, NOOP, generateCodeFrame, extend } from '@vue/shared'
 import { InternalRenderFunction } from 'packages/runtime-core/src/component'
 
-__DEV__ && initDev()
+if (__DEV__) {
+  initDev()
+}
 
 const compileCache: Record<string, RenderFunction> = Object.create(null)
 
@@ -47,34 +49,34 @@ function compileToFunction(
     extend(
       {
         hoistStatic: true,
-        onError(err: CompilerError) {
-          if (__DEV__) {
-            const message = `Template compilation error: ${err.message}`
-            const codeFrame =
-              err.loc &&
-              generateCodeFrame(
-                template as string,
-                err.loc.start.offset,
-                err.loc.end.offset
-              )
-            warn(codeFrame ? `${message}\n${codeFrame}` : message)
-          } else {
-            /* istanbul ignore next */
-            throw err
-          }
-        }
-      },
+        onError: __DEV__ ? onError : undefined,
+        onWarn: __DEV__ ? e => onError(e, true) : NOOP
+      } as CompilerOptions,
       options
     )
   )
+
+  function onError(err: CompilerError, asWarning = false) {
+    const message = asWarning
+      ? err.message
+      : `Template compilation error: ${err.message}`
+    const codeFrame =
+      err.loc &&
+      generateCodeFrame(
+        template as string,
+        err.loc.start.offset,
+        err.loc.end.offset
+      )
+    warn(codeFrame ? `${message}\n${codeFrame}` : message)
+  }
 
   // The wildcard import results in a huge object with every export
   // with keys that cannot be mangled, and can be quite heavy size-wise.
   // In the global build we know `Vue` is available globally so we can avoid
   // the wildcard object.
-  const render = (__GLOBAL__
-    ? new Function(code)()
-    : new Function('Vue', code)(runtimeDom)) as RenderFunction
+  const render = (
+    __GLOBAL__ ? new Function(code)() : new Function('Vue', code)(runtimeDom)
+  ) as RenderFunction
 
   // mark the function as runtime compiled
   ;(render as InternalRenderFunction)._rc = true
@@ -85,7 +87,4 @@ function compileToFunction(
 registerRuntimeCompiler(compileToFunction)
 
 export { compileToFunction as compile }
-
-// 这边导出所有 @vue/runtime-dom 下的 function
-// 里面有 createApp 方法
 export * from '@vue/runtime-dom'
